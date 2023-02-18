@@ -1,15 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
+import './index.scss';
 import reportWebVitals from './reportWebVitals';
+import { WagmiConfig, createClient, goerli } from "wagmi";
+import { ConnectKitProvider, getDefaultClient } from "connectkit";
 
+const chains = [goerli];
+const client = createClient(
+  getDefaultClient({ appName: "BlockTalks", chains })
+)
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <WagmiConfig client={client}>
+      <ConnectKitProvider theme="auto" mode="light">
+
+      </ConnectKitProvider>
+    </WagmiConfig>
   </React.StrictMode>
 );
 

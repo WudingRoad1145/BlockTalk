@@ -4,6 +4,7 @@ import './index.scss';
 import reportWebVitals from './reportWebVitals';
 import { WagmiConfig, createClient, goerli } from "wagmi";
 import { ConnectKitProvider, getDefaultClient } from "connectkit";
+import MainPage from 'pages/main';
 
 const chains = [goerli];
 const client = createClient(
@@ -16,7 +17,7 @@ root.render(
   <React.StrictMode>
     <WagmiConfig client={client}>
       <ConnectKitProvider theme="auto" mode="light">
-
+        <MainPage />
       </ConnectKitProvider>
     </WagmiConfig>
   </React.StrictMode>

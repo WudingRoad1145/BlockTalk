@@ -8,13 +8,11 @@ import InputAdornment from "@mui/material/InputAdornment";
 import classNames from "classnames";
 import Button from "@mui/material/Button";
 import { useProvider, useSigner } from "wagmi";
-import sendToken from "helpers/sendToken";
-import swapToken from "helpers/swapToken";
-import bridgeToken from "helpers/bridgeToken";
+// import sendToken from "helpers/sendToken";
+// import swapToken from "helpers/swapToken";
+// import bridgeToken from "helpers/bridgeToken";
+// import action from "helpers/action";
 
-import action from "helpers/action";
-// import Grid from '@mui/material/Grid';
-// import { ChatGPTAPIBrowser } from "chatgpt";
 export interface InputProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const Input = ({ className, ...props }: InputProps) => {
@@ -52,7 +50,7 @@ const Input = ({ className, ...props }: InputProps) => {
     // console.log(finalOutput);
     // sendToken("Send 5 WETH TO 0xBF52afF4D0BC9aaB345B9aA0D58A2c5dB62F08Bf ON ETHEREUM", signer);
     // swapToken("SWAP 0.005 WETH TO DAI ON ETHEREUM", signer);
-    bridgeToken("Bridge 5 USDC from ETH to AVAX", signer, provider);
+    // bridgeToken("Bridge 5 USDC from ETH to AVAX", signer, provider);
     // action(finalOutput, signer, provider);
   };
   

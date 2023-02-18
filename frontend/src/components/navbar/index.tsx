@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import { ConnectKitButton } from "connectkit";
-import { useEffect } from "react";
 import styles from "./index.module.scss";
 import logo from "./logo.png";
 

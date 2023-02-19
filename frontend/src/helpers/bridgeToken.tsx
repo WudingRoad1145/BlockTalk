@@ -203,7 +203,7 @@ const bridgeToken = async(
     // STEP 5: Using the message bytes and signature recieve the funds on destination chain and address
     // web3.setProvider(AVAX_TESTNET_RPC); // Connect web3 to AVAX testnet
     // switchNetwork?.(43113)
-    switchNetwork?.(43113)
+    await switchNetwork?.(43113)
     // const network = () => {
     //     useSwitchNetwork({
     //     chainId: 43113,

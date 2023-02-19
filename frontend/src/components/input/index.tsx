@@ -24,26 +24,26 @@ const Input = ({ className, ...props }: InputProps) => {
 
   const sendToChatGPT = async (value: string) => {
     if (value.length !== 0) setHistory([...history, value]);
-    // console.log("sent to chatGPT in");
-    // const connect = await fetch("http://127.0.0.1:5000/chatgpt", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-type": "application/json",
-    //   },
-    //   body: JSON.stringify({ input: value }),
-    // });
-    // const data = await connect.json();
-    // const dataProcedure = data.output.split("\n");
-    // let chatGPTOutput = [];
-    // for (let i = 0; i < dataProcedure.length; i++) {
-    //   chatGPTOutput.push(dataProcedure[i]);
-    //     //.substring(3, dataProcedure[i].length - 1));
-    // }
-    // setChatGPTOutput(chatGPTOutput);
-    // console.log(chatGPTOutput);
-    let chatGPTOutput = ["BRIDGE 1 USDC TO DAI on ETH"];
-    bridgeToken(chatGPTOutput[0], signer, provider, switchNetwork);
-    // action(chatGPTOutput, signer, provider, switchNetwork);
+    console.log("sent to chatGPT in");
+    const connect = await fetch("http://127.0.0.1:5000/chatgpt", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({ input: value }),
+    });
+    const data = await connect.json();
+    const dataProcedure = data.output.split("\n");
+    let chatGPTOutput = [];
+    for (let i = 0; i < dataProcedure.length; i++) {
+      chatGPTOutput.push(dataProcedure[i]);
+        //.substring(3, dataProcedure[i].length - 1));
+    }
+    setChatGPTOutput(chatGPTOutput);
+    console.log(chatGPTOutput);
+    // let chatGPTOutput = ["BRIDGE 1 USDC TO DAI on ETH"];
+    // bridgeToken(chatGPTOutput[, signer, provider, switchNetwork);
+    action(chatGPTOutput, signer, provider, switchNetwork);
   };
 
   return (

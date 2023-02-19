@@ -2,9 +2,11 @@ import { Contract } from "@ethersproject/contracts";
 import { keccak256 } from "@ethersproject/keccak256";
 import { toUtf8Bytes } from "@ethersproject/strings";
 import { AbiCoder } from 'ethers/lib/utils';
-import { useNetwork, useSwitchNetwork } from 'wagmi'
+//import { useNetwork, useSwitchNetwork } from 'wagmi'
 import { ethers } from 'ethers';
-import { switchNetwork } from '@wagmi/core'
+//import { switchNetwork } from '@wagmi/core'
+import { useSwitchNetwork } from 'wagmi'
+
 
 // const { chain } = useNetwork()
 // const { chains, error, isLoading, pendingChainId, switchNetwork } = useSwitchNetwork()
@@ -198,12 +200,45 @@ const bridgeToken = async(
 
     console.log("Step 5");
     // STEP 5: Using the message bytes and signature recieve the funds on destination chain and address
-    //// web3.setProvider(AVAX_TESTNET_RPC); // Connect web3 to AVAX testnet
-    //// switchNetwork?.(43113)
+    web3.setProvider(AVAX_TESTNET_RPC); // Connect web3 to AVAX testnet
+    switchNetwork?.(43113)
+    // const network = () => {
+    //     useSwitchNetwork({
+    //     chainId: 43113,
+    //     onSuccess(data) {
+    //         console.log('Success', data)
+    //       },
+    //   })
+    // }
     // const network = await switchNetwork({
     //     chainId: 43113,
     //   })
     // console.log(network);
+    // const chainId = 43113 // Polygon Mainnet
+
+    // if (window.ethereum.networkVersion !== chainId) {
+    //   try {
+    //     await window.ethereum.request({
+    //       method: 'wallet_switchEthereumChain',
+    //       params: [{ chainId: web3.utils.toHex(chainId) }]
+    //     });
+    //   } catch (err) {
+    //       // This error code indicates that the chain has not been added to MetaMask
+    //     if (err.code === 4902) {
+    //       await window.ethereum.request({
+    //         method: 'wallet_addEthereumChain',
+    //         params: [
+    //           {
+    //             chainName: 'Polygon Mainnet',
+    //             chainId: web3.utils.toHex(chainId),
+    //             nativeCurrency: { name: 'MATIC', decimals: 18, symbol: 'MATIC' },
+    //             rpcUrls: ['https://polygon-rpc.com/']
+    //           }
+    //         ]
+    //       });
+    //     }
+    //   }
+    // }
     //const receiveTxGas = await avaxMessageTransmitterContract.methods.receiveMessage(messageBytes, attestationSignature);
     const receiveTx = await avaxMessageTransmitterContract.receiveMessage(messageBytes, newR.attestation);
     //// const receiveTxReceipt = await waitForTransaction(web3, receiveTx.transactionHash);

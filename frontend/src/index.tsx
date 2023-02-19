@@ -5,8 +5,9 @@ import reportWebVitals from './reportWebVitals';
 import { WagmiConfig, createClient, goerli } from "wagmi";
 import { ConnectKitProvider, getDefaultClient } from "connectkit";
 import MainPage from 'pages/main';
+import { avalanche} from '@wagmi/core/chains'
 
-const chains = [goerli];
+const chains = [goerli,avalanche];
 const client = createClient(
   getDefaultClient({ appName: "BlockTalks", chains })
 )

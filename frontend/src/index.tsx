@@ -7,7 +7,7 @@ import { ConnectKitProvider, getDefaultClient } from "connectkit";
 import MainPage from 'pages/main';
 import { avalanche} from '@wagmi/core/chains'
 
-const chains = [goerli,avalanche];
+const chains = [goerli, avalanche];
 const client = createClient(
   getDefaultClient({ appName: "BlockTalks", chains })
 )

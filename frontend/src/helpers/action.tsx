@@ -11,9 +11,10 @@ const action = (DSLInput: string[], signer:any, provider:any) => {
       sendToken(procedure, signer);
     } else if (command == "SWAP") {
       swapToken(procedure, signer);
-    } else if (command == "BRIDGE") {
-      bridgeToken(procedure, signer, provider);
     }
+    // } else if (command == "BRIDGE") {
+    //   bridgeToken(procedure, signer, provider, );
+    // }
   }
 };
 

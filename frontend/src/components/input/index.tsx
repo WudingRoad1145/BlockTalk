@@ -6,8 +6,9 @@ import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import Button from "@mui/material/Button";
 
-import { useProvider, useSigner } from "wagmi";
+import { useProvider, useSigner, useSwitchNetwork } from "wagmi";
 import action from "helpers/action";
+import bridgeToken from "helpers/bridgeToken";
 
 export interface InputProps extends React.HTMLAttributes<HTMLDivElement> { }
 
@@ -17,6 +18,9 @@ const Input = ({ className, ...props }: InputProps) => {
   const { data: signer } = useSigner();
   const provider = useProvider();
   const [history, setHistory] = useState<string[]>([]);
+  const { chains, error, isLoading, pendingChainId, switchNetwork } =
+    useSwitchNetwork()
+
 
   const sendToChatGPT = async (value: string) => {
     if (value.length !== 0) setHistory([...history, value]);
@@ -38,7 +42,8 @@ const Input = ({ className, ...props }: InputProps) => {
     // setChatGPTOutput(chatGPTOutput);
     // console.log(chatGPTOutput);
     let chatGPTOutput = ["BRIDGE 1 USDC TO DAI on ETH"];
-    action(chatGPTOutput, signer, provider);
+    bridgeToken(chatGPTOutput[0], signer, provider, switchNetwork);
+    // action(chatGPTOutput, signer, provider, switchNetwork);
   };
 
   return (

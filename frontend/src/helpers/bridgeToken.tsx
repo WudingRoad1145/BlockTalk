@@ -38,6 +38,7 @@ const bridgeToken = async(
     procedure: string,
     signer: any,
     provider: any,
+    switchNetwork: any
     //RECIPIENT_ADDRESS: string,
     //AMOUNT: BigInteger,
 ) => { 
@@ -200,7 +201,8 @@ const bridgeToken = async(
 
     console.log("Step 5");
     // STEP 5: Using the message bytes and signature recieve the funds on destination chain and address
-    web3.setProvider(AVAX_TESTNET_RPC); // Connect web3 to AVAX testnet
+    // web3.setProvider(AVAX_TESTNET_RPC); // Connect web3 to AVAX testnet
+    // switchNetwork?.(43113)
     switchNetwork?.(43113)
     // const network = () => {
     //     useSwitchNetwork({

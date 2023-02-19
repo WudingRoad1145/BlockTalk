@@ -30,9 +30,9 @@ const SendToken = async (procedure: string, signer: any) => {
     if (fromTokenNumber.includes("%")) {
       let percentage = parseFloat(fromTokenNumber.replace("%", ""));
       amountIn = Math.floor((parseFloat(totalNumber) * percentage) / 100);
-    } else if (fromTokenNumber.includes("all")) {
+    } else if (fromTokenNumber.includes("ALL")) {
       amountIn = totalNumber;
-    } else if (fromTokenNumber.includes("half")) {
+    } else if (fromTokenNumber.includes("HALF")) {
       amountIn = Math.floor(parseFloat(totalNumber) / 2);
     }
   } else {

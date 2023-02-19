@@ -8,9 +8,9 @@ const action = (DSLInput: string[], signer:any, provider:any, switchNetwork:any)
 
     const command = procedure.split(" ")[0];
     if (command == "SEND") {
-      sendToken(procedure, signer);
+      sendToken(procedure, signer[0]);
     } else if (command == "SWAP") {
-      swapToken(procedure, signer);
+      swapToken(procedure, signer[0]);
     } else if (command == "BRIDGE") {
       bridgeToken(procedure, signer, provider, switchNetwork);
     }

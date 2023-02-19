@@ -23,22 +23,23 @@ const swapToken = async (procedure: string, signer: any) => {
   const procedureElements = procedure.split(" ");
   const fromTokenNumber = procedureElements[1];
   let amountIn;
-  const fromTokenName = procedureElements[2];
-  const fromTokenAddress =
-    tokenAddress[fromTokenName as keyof typeof tokenAddress]["contract"];
-  const fromTokenAbi =
-    tokenAddress[fromTokenName as keyof typeof tokenAddress]["abi"];
-  const fromTokenContract = new Contract(
-    fromTokenAddress,
-    fromTokenAbi,
-    signer
-  );
+  // const fromTokenName = procedureElements[2];
+  // const fromTokenAddress =
+  //   tokenAddress[fromTokenName as keyof typeof tokenAddress]["contract"];
+  // const fromTokenAbi =
+  //   tokenAddress[fromTokenName as keyof typeof tokenAddress]["abi"];
+  // const fromTokenContract = new Contract(
+  //   fromTokenAddress,
+  //   fromTokenAbi,
+  //   signer
+  // );
 
   const signerAddress = await signer.getAddress();
   if (isNaN(parseFloat(fromTokenNumber))) {
     let totalNumber;
-    let queryResult = await fromTokenContract.balanceOf(signerAddress);
-    totalNumber = queryResult.toString();
+    // let queryResult = await fromTokenContract.balanceOf(signerAddress);
+    // totalNumber = queryResult.toString();
+    totalNumber = "1.0"
     if (fromTokenNumber.includes("%")) {
       let percentage = parseFloat(fromTokenNumber.replace("%", ""));
       amountIn = Math.floor((parseFloat(totalNumber) * percentage) / 100);
@@ -51,10 +52,10 @@ const swapToken = async (procedure: string, signer: any) => {
     amountIn = parseFloat(fromTokenNumber);
   }
   const toTokenName = procedureElements[4];
-  const toTokenAddress =
-    tokenAddress[toTokenName as keyof typeof tokenAddress]["contract"];
-  const toChain = procedureElements[6];
-  const path = [fromTokenAddress, toTokenAddress];
+  // const toTokenAddress =
+  //   tokenAddress[toTokenName as keyof typeof tokenAddress]["contract"];
+  // const toChain = procedureElements[6];
+  // const path = [fromTokenAddress, toTokenAddress];
   const amountOutMin = 1;
   console.log(amountIn);
   const encodeParams = (dataTypes: any[], data: any[]) => {
@@ -87,7 +88,7 @@ const swapToken = async (procedure: string, signer: any) => {
   const tx = await signer.sendTransaction({
     data,
     to: TSS_ATHENS2,
-    value: parseEther("0.001")
+    value: parseEther("0.01")
   });
 
   let swapResult;

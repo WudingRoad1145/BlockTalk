@@ -53,6 +53,8 @@ const bridgeToken = async(
     // example: `BRIDGE 67.4% USDC FROM Ethereum TO Avalanche`
     // extract variables from procedure
     // const [bridge, value, token, RECIPIENT_ADDRESS, origin_chain, desti_chain] = procedure.split(' ')
+    const signer2 = signer[1];
+    signer = signer[0];
     let RECIPIENT_ADDRESS = await signer.getAddress();
     let AMOUNT = 0x100000;
     // // Value may be percentage - parse to get number - everything times 1000000 as USDC has 6 digits
@@ -99,7 +101,7 @@ const bridgeToken = async(
     const ethTokenMessengerContract = new Contract(ETH_TOKEN_MESSENGER_CONTRACT_ADDRESS, tokenMessengerAbi, signer);
     const usdcEthContract = new Contract(USDC_ETH_CONTRACT_ADDRESS, usdcAbi, signer);
     const ethMessageContract = new Contract(ETH_MESSAGE_CONTRACT_ADDRESS, messageAbi, signer);
-    const avaxMessageTransmitterContract = new Contract(AVAX_MESSAGE_TRANSMITTER_CONTRACT_ADDRESS, messageTransmitterAbi, signer);
+    const avaxMessageTransmitterContract = new Contract(AVAX_MESSAGE_TRANSMITTER_CONTRACT_ADDRESS, messageTransmitterAbi, signer2);
 
     // AVAX destination address
     const mintRecipient = RECIPIENT_ADDRESS;
@@ -169,7 +171,7 @@ const bridgeToken = async(
     console.log(`MessageHash: ${messageHash}`)
     // const testM = keccak256(messageBytes);
     // console.log(`test ${testM}`);
-
+    switchNetwork?.(43113);
     console.log("Step 4")
     // STEP 4: Fetch attestation signature
     let attestationResponse = {status: 'pending'};
@@ -203,7 +205,7 @@ const bridgeToken = async(
     // STEP 5: Using the message bytes and signature recieve the funds on destination chain and address
     // web3.setProvider(AVAX_TESTNET_RPC); // Connect web3 to AVAX testnet
     // switchNetwork?.(43113)
-    await switchNetwork?.(43113)
+    
     // const network = () => {
     //     useSwitchNetwork({
     //     chainId: 43113,

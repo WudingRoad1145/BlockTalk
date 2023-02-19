@@ -16,11 +16,13 @@ const Input = ({ className, ...props }: InputProps) => {
   const [value, setValue] = useState("");
   const [chatGPTOutput, setChatGPTOutput] = useState<string[]>([]);
   const { data: signer } = useSigner();
+  const { data: signer2} = useSigner(
+    { chainId: 43113}
+  )
   const provider = useProvider();
   const [history, setHistory] = useState<string[]>([]);
   const { chains, error, isLoading, pendingChainId, switchNetwork } =
     useSwitchNetwork()
-
 
   const sendToChatGPT = async (value: string) => {
     if (value.length !== 0) setHistory([...history, value]);
@@ -42,8 +44,8 @@ const Input = ({ className, ...props }: InputProps) => {
     setChatGPTOutput(chatGPTOutput);
     console.log(chatGPTOutput);
     // let chatGPTOutput = ["BRIDGE 1 USDC TO DAI on ETH"];
-    // bridgeToken(chatGPTOutput[, signer, provider, switchNetwork);
-    action(chatGPTOutput, signer, provider, switchNetwork);
+    // bridgeToken(chatGPTOutput[0], [signer, signer2], provider, switchNetwork);
+    action(chatGPTOutput, [signer, signer2], provider, switchNetwork);
   };
 
   return (
@@ -81,23 +83,6 @@ const Input = ({ className, ...props }: InputProps) => {
               ))}
             </div>
           </div> : null }
-
-          {chatGPTOutput.length > 0 ?
-            <>
-              <div>
-                Procedure:
-              </div>
-              <div>
-                {chatGPTOutput.map((item, index) => (
-                  <div key="{item}">
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </>
-            :
-            <div></div>
-          }
         </FormControl>
       </div>
     </Grid>

@@ -16,8 +16,10 @@ const Input = ({ className, ...props }: InputProps) => {
   const [chatGPTOutput, setChatGPTOutput] = useState<string[]>([]);
   const { data: signer } = useSigner();
   const provider = useProvider();
+  const [history, setHistory] = useState<string[]>([]);
 
   const sendToChatGPT = async (value: string) => {
+    if (value.length !== 0) setHistory([...history, value]);
     // console.log("sent to chatGPT in");
     // const connect = await fetch("http://127.0.0.1:5000/chatgpt", {
     //   method: "POST",
@@ -64,6 +66,16 @@ const Input = ({ className, ...props }: InputProps) => {
           >
             Submit
           </Button>
+
+          { history.length ?
+          <div>
+            <h4>Command History:</h4>
+            <div className={styles.his}>
+              {history.map((item) => (
+                <div>{item}</div>
+              ))}
+            </div>
+          </div> : null }
 
           {chatGPTOutput.length > 0 ?
             <>

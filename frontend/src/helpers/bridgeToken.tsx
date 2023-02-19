@@ -51,7 +51,7 @@ const bridgeToken = async(
     // extract variables from procedure
     // const [bridge, value, token, RECIPIENT_ADDRESS, origin_chain, desti_chain] = procedure.split(' ')
     let RECIPIENT_ADDRESS = await signer.getAddress();
-    let AMOUNT = 0x1;
+    let AMOUNT = 0x100000;
     // // Value may be percentage - parse to get number - everything times 1000000 as USDC has 6 digits
     // if (isNaN(parseFloat(value))){
     //     let totalUSDC;

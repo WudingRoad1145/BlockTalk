@@ -64,23 +64,23 @@ const Input = ({ className, ...props }: InputProps) => {
           >
             Submit
           </Button>
-          
-          {chatGPTOutput.length > 0 ? 
-          <>
-            <div>
-              Procedure:
-            </div>
-            <div>
-              {chatGPTOutput.map((item, index) => (
-                <div key="{item}">
-                  {item}
-                </div>
-              ))}
-            </div>
-          </>
-          : 
-           <div></div>
-          }          
+
+          {chatGPTOutput.length > 0 ?
+            <>
+              <div>
+                Procedure:
+              </div>
+              <div>
+                {chatGPTOutput.map((item, index) => (
+                  <div key="{item}">
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </>
+            :
+            <div></div>
+          }
         </FormControl>
       </div>
     </Grid>

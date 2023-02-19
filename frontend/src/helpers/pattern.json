@@ -1,0 +1,5 @@
+{
+    "SEND": "SEND * * TO * ON *",
+    "SWAP": "SWAP * * TO * ON *",
+    "BRIDGE": "BRIDGE * * FROM * TO *"
+}

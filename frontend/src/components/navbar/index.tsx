@@ -11,7 +11,7 @@ const Navbar = ({ className, ...props }: NavbarProps) => {
       <img
         src={logo}
         className={styles.logo}
-        alt="Sell Your Soul Wallet"
+        alt="BlockTalk"
         // onClick={() => navigate("/")}
       />
       <ConnectKitButton />

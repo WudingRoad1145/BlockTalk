@@ -1,0 +1,7 @@
+{
+    // "TOKEN_NAME": "FUNCTION_NAME",
+    "ETH": "sendTransaction()",
+    "USDC": "transfer",
+    "": "function_name"
+    
+}

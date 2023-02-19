@@ -1,37 +1,24 @@
-import * as React from "react";
+import classNames from "classnames";
 import { useEffect, useState } from "react";
-import Box from "@mui/material/Box";
 import styles from "./index.module.scss";
 import { FormControl, Grid, OutlinedInput } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
-import classNames from "classnames";
 import Button from "@mui/material/Button";
-import { useProvider, useSigner } from "wagmi";
-// import sendToken from "helpers/sendToken";
-// import swapToken from "helpers/swapToken";
-// import bridgeToken from "helpers/bridgeToken";
-// import action from "helpers/action";
 
-export interface InputProps extends React.HTMLAttributes<HTMLDivElement> {}
+import { useProvider, useSigner } from "wagmi";
+import action from "helpers/action";
+
+export interface InputProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 const Input = ({ className, ...props }: InputProps) => {
   const [value, setValue] = useState("");
-  const [output, setOutput] = useState<string[]>([]);
+  const [chatGPTOutput, setChatGPTOutput] = useState<string[]>([]);
   const { data: signer } = useSigner();
   const provider = useProvider();
-//   useEffect(() => {
-//     // Using fetch to fetch the api from
-//     // flask server it will be redirected to proxy
-//     fetch("http://127.0.0.1:5000/data").then((res) =>
-//       res.json().then((data) => {
-//         // Setting a data from api
-//         console.log(data);
-//       })
-//     );
-//   }, []);
+
   const sendToChatGPT = async (value: string) => {
-    // console.log("in");
+    // console.log("sent to chatGPT in");
     // const connect = await fetch("http://127.0.0.1:5000/chatgpt", {
     //   method: "POST",
     //   headers: {
@@ -41,21 +28,19 @@ const Input = ({ className, ...props }: InputProps) => {
     // });
     // const data = await connect.json();
     // const dataProcedure = data.output.split("\n");
-    // let finalOutput = [];
+    // let chatGPTOutput = [];
     // for (let i = 0; i < dataProcedure.length; i++) {
-    //   finalOutput.push(dataProcedure[i]);
+    //   chatGPTOutput.push(dataProcedure[i]);
     //     //.substring(3, dataProcedure[i].length - 1));
     // }
-    // setOutput(finalOutput);
-    // console.log(finalOutput);
-    // sendToken("Send 5 WETH TO 0xBF52afF4D0BC9aaB345B9aA0D58A2c5dB62F08Bf ON ETHEREUM", signer);
-    // swapToken("SWAP 0.005 WETH TO DAI ON ETHEREUM", signer);
-    // bridgeToken("Bridge 5 USDC from ETH to AVAX", signer, provider);
-    // action(finalOutput, signer, provider);
+    // setChatGPTOutput(chatGPTOutput);
+    // console.log(chatGPTOutput);
+    let chatGPTOutput = ["SWAP 1 USDC TO DAI on ETH"];
+    action(chatGPTOutput, signer, provider);
   };
-  
+
   return (
-    <Grid alignItems="center">   
+    <Grid alignItems="center">
       <div className={classNames(styles.navbar, className)} {...props}>
         <FormControl fullWidth sx={{ backgroundColor: "#1111111" }} variant="outlined">
           <InputLabel className="test-label" htmlFor="outlined-adornment-amount">Command</InputLabel>
@@ -79,12 +64,23 @@ const Input = ({ className, ...props }: InputProps) => {
           >
             Submit
           </Button>
-
-          <div>
-            {output.map((item) => (
-              <div>{item}</div>
-            ))}
-          </div>
+          
+          {chatGPTOutput.length > 0 ? 
+          <>
+            <div>
+              Procedure:
+            </div>
+            <div>
+              {chatGPTOutput.map((item, index) => (
+                <div key="{item}">
+                  {item}
+                </div>
+              ))}
+            </div>
+          </>
+          : 
+           <div></div>
+          }          
         </FormControl>
       </div>
     </Grid>

@@ -53,7 +53,7 @@ chatbot = Chatbot(config={
 
 response = ""
 for data in chatbot.ask(
-  prompt_template.replace("{user_input}", "Send 5 USDC and 5 UNI to wjiang.eth")
+  prompt_template.replace("{user_input}", "I wanna send all of my USDC on Polygon to 0x986854779804799C1d68867F5E03e601E781e41b")
 ):
     response = data["message"]
     

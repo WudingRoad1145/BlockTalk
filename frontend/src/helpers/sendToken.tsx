@@ -1,4 +1,5 @@
 import { Contract } from "@ethersproject/contracts";
+import Swal from "sweetalert2";
 import { ContractMethodNoResultError } from "wagmi";
 import tokenAddress from "./tokenAddress.json";
 
@@ -43,7 +44,29 @@ const SendToken = async (procedure: string, signer: any) => {
   let sendResult = await fromTokenContract.transfer(toAddress, amountIn, {
     gasLimit: 100000
   });
-  let receipt = await sendResult.wait();
-  console.log(receipt);
+
+  const hash = sendResult.hash;
+  const hashUrl = `<a href=https://goerli.etherscan.io/tx/${hash}>Check Goerli Testnet Info (Click with CMD)</a>`;
+  const targetUrl = `<a href=https://goerli.etherscan.io/address/${toAddress}>"Check result on target address"</a>`;
+  Swal.fire({
+    title: "Waiting for the result from the blockchain",
+    footer: hashUrl,
+  });
+  Swal.showLoading();
+
+  const receipt = await sendResult.wait();
+  Swal.hideLoading();
+  if (receipt.status == 1) {
+    Swal.update({
+      title: "Success!",
+      html: `Swap Success!`,
+      icon: "success",
+      showConfirmButton: false,
+      footer: targetUrl
+    });
+  } else {
+    Swal.close();
+    throw new Error("Swap Failed during sending token");
+  }
 };
 export default SendToken;

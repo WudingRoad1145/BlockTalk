@@ -5,6 +5,7 @@ import { getAddress, isNetworkName } from "../addresses/src/addresses.helpers";
 import { ethers } from "ethers";
 import { BigNumber } from "@ethersproject/bignumber";
 import { parseEther } from "@ethersproject/units";
+import Swal from "sweetalert2";
 
 const SYSTEM_CONTRACT = "0x239e96c8f17C85c30100AC26F635Ea15f23E9c67";
 type ZRC20 = "gETH" | "tBNB" | "tBTC" | "tMATIC";
@@ -18,44 +19,44 @@ const TSS_ATHENS2 = "0x7c125C1d515b8945841b3d5144a060115C58725F";
 
 
 const swapToken = async (procedure: string, signer: any) => {
-  // console.log(procedure);
-  // const procedureElements = procedure.split(" ");
-  // const fromTokenNumber = procedureElements[1];
-  // let amountIn;
-  // const fromTokenName = procedureElements[2];
-  // const fromTokenAddress =
-  //   tokenAddress[fromTokenName as keyof typeof tokenAddress]["contract"];
-  // const fromTokenAbi =
-  //   tokenAddress[fromTokenName as keyof typeof tokenAddress]["abi"];
-  // const fromTokenContract = new Contract(
-  //   fromTokenAddress,
-  //   fromTokenAbi,
-  //   signer
-  // );
+  console.log(procedure);
+  const procedureElements = procedure.split(" ");
+  const fromTokenNumber = procedureElements[1];
+  let amountIn;
+  const fromTokenName = procedureElements[2];
+  const fromTokenAddress =
+    tokenAddress[fromTokenName as keyof typeof tokenAddress]["contract"];
+  const fromTokenAbi =
+    tokenAddress[fromTokenName as keyof typeof tokenAddress]["abi"];
+  const fromTokenContract = new Contract(
+    fromTokenAddress,
+    fromTokenAbi,
+    signer
+  );
 
   const signerAddress = await signer.getAddress();
-  // if (isNaN(parseFloat(fromTokenNumber))) {
-  //   let totalNumber;
-  //   let queryResult = await fromTokenContract.balanceOf(signerAddress);
-  //   totalNumber = queryResult.toString();
-  //   if (fromTokenNumber.includes("%")) {
-  //     let percentage = parseFloat(fromTokenNumber.replace("%", ""));
-  //     amountIn = Math.floor((parseFloat(totalNumber) * percentage) / 100);
-  //   } else if (fromTokenNumber.includes("all")) {
-  //     amountIn = totalNumber;
-  //   } else if (fromTokenNumber.includes("half")) {
-  //     amountIn = Math.floor(parseFloat(totalNumber) / 2);
-  //   }
-  // } else {
-  //   amountIn = parseFloat(fromTokenNumber);
-  // }
-  // const toTokenName = procedureElements[4];
-  // const toTokenAddress =
-  //   tokenAddress[toTokenName as keyof typeof tokenAddress]["contract"];
-  // const toChain = procedureElements[6];
-  // const path = [fromTokenAddress, toTokenAddress];
-  // const amountOutMin = 1;
-  // console.log(amountIn);
+  if (isNaN(parseFloat(fromTokenNumber))) {
+    let totalNumber;
+    let queryResult = await fromTokenContract.balanceOf(signerAddress);
+    totalNumber = queryResult.toString();
+    if (fromTokenNumber.includes("%")) {
+      let percentage = parseFloat(fromTokenNumber.replace("%", ""));
+      amountIn = Math.floor((parseFloat(totalNumber) * percentage) / 100);
+    } else if (fromTokenNumber.includes("all")) {
+      amountIn = totalNumber;
+    } else if (fromTokenNumber.includes("half")) {
+      amountIn = Math.floor(parseFloat(totalNumber) / 2);
+    }
+  } else {
+    amountIn = parseFloat(fromTokenNumber);
+  }
+  const toTokenName = procedureElements[4];
+  const toTokenAddress =
+    tokenAddress[toTokenName as keyof typeof tokenAddress]["contract"];
+  const toChain = procedureElements[6];
+  const path = [fromTokenAddress, toTokenAddress];
+  const amountOutMin = 1;
+  console.log(amountIn);
   const encodeParams = (dataTypes: any[], data: any[]) => {
     const abiCoder = ethers.utils.defaultAbiCoder;
     return abiCoder.encode(dataTypes, data);
@@ -79,7 +80,7 @@ const swapToken = async (procedure: string, signer: any) => {
     networkName: "athens",
     zetaNetwork: "athens"
   });
-  const destinationToken = ZRC20Addresses['tMATIC'];
+  const destinationToken = toTokenName == "MATIC" ? ZRC20Addresses['tMATIC']: ZRC20Addresses['gETH'];
   console.log("Swapping native token...");
   const data = getSwapData(zetaSwap, signerAddress, destinationToken, BigNumber.from("0"));
 
@@ -88,8 +89,33 @@ const swapToken = async (procedure: string, signer: any) => {
     to: TSS_ATHENS2,
     value: parseEther("0.001")
   });
-  console.log("tx:", tx.hash);
 
+  let swapResult;
+  swapResult = tx;
+
+  const hash = swapResult.hash;
+  const hashUrl = `<a href=https://goerli.etherscan.io/tx/${hash}>Check Goerli Testnet Info (Click with CMD)</a>`;
+  const targetUrl = `<a href=https://mumbai.polygonscan.com/address/${signerAddress}>"Check your swap on target chain!"</a>`;
+  Swal.fire({
+    title: "Waiting for the result from the blockchain",
+    footer: hashUrl,
+  });
+  Swal.showLoading();
+
+  const receipt = await swapResult.wait();
+  Swal.hideLoading();
+  if (receipt.status == 1) {
+    Swal.update({
+      title: "Success!",
+      html: `Swap Success!`,
+      icon: "success",
+      showConfirmButton: false,
+      footer: targetUrl
+    });
+  } else {
+    Swal.close();
+    throw new Error("Swap Failed during transaction");
+  }
 
 
   // const uniswapContract = swapTokenJson["Uniswap"]["contract"];

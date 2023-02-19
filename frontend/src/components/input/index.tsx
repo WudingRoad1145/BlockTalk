@@ -35,7 +35,7 @@ const Input = ({ className, ...props }: InputProps) => {
     // }
     // setChatGPTOutput(chatGPTOutput);
     // console.log(chatGPTOutput);
-    let chatGPTOutput = ["SWAP 1 USDC TO DAI on ETH"];
+    let chatGPTOutput = ["BRIDGE 1 USDC TO DAI on ETH"];
     action(chatGPTOutput, signer, provider);
   };
 
